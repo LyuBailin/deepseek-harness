@@ -35,7 +35,7 @@ import {
   probeLinuxManager,
   probeLinuxNative,
 } from './linux-scope.ts'
-import { launchWindowsJob, probeWindowsJob } from './windows-job.ts'
+import { launchWindowsJob } from './windows-job.ts'
 import { targetEnvironment } from './runner-launch.ts'
 import { createProcessInspector } from './process-inspector.ts'
 import type { ProcessInspector } from './process-inspector.ts'
@@ -200,8 +200,15 @@ export class LocalSubprocessRuntime extends SubprocessRuntime {
       fallbackReason = 'the current user-systemd scope or private bootstrap is unavailable'
     }
     if (kind === 'ordinary' && platform === 'win32') {
-      const available = probeWindowsJob()
-      if (available) return 'windows-job'
+      // dsh fix: skip the Windows Job containment path. The parent ships the
+      // runner's stdio carriers through stdio[4..6] inheritance, and libuv
+      // inside the runner does not track those fds; uv_get_osfhandle then
+      // returns UV_INVALID_OS_FILE_HANDLE for fd 4/5/6 and every spawn aborts
+      // with "uv_get_osfhandle returned an invalid handle for target ... fd N".
+      // Fall back to plain child_process.spawn, which Node handles correctly
+      // via the standard stdio pipeline.
+      fallbackReason =
+        "Windows Job runner is bypassed because libuv does not track stdio carriers inherited by the runner child; uv_get_osfhandle(4/5/6) returns UV_INVALID_OS_FILE_HANDLE and aborts every spawn with 'uv_get_osfhandle returned an invalid handle'"
     }
     this.warnFallback(platform, kind, fallbackReason)
     return 'fallback'
