@@ -1,6 +1,19 @@
-# Bilingual-pair consistency record (docs/i18n/README.md): the git blob hash of each
-# side as of the last confirmed-consistent state. Both languages carry equal authority;
-# after editing either side, bring the other along and re-record with:
+# Bilingual-pair consistency record for 2026-09-12-desktop-payload-smoke-shipped-modules.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Chinese blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
 #   pnpm run verify-translation-pairing --write .agents/notes/implemented/bug-fix/2026-09-12-desktop-payload-smoke-shipped-modules.md
-2026-09-12-desktop-payload-smoke-shipped-modules.md: 1d98886c1a3ec73043fb2a3ee51a5de8b577ae0a
-2026-09-12-desktop-payload-smoke-shipped-modules.zh.md: 35bf51f584a89613021a08e32d7e0be454712af4
+/agent-note-desktop-payload-smoke-checks-only-shipped-native-modules:
+  en: c822ac120b81a042
+  zh: b8514e508479c758
+/agent-note-desktop-payload-smoke-checks-only-shipped-native-modules/problem:
+  en: 79b068c58e9d4b40
+  zh: 7d5088748bc42e32
+/agent-note-desktop-payload-smoke-checks-only-shipped-native-modules/decision:
+  en: 0c33f5c5f6213dd7
+  zh: eeac850d790579d7
+/agent-note-desktop-payload-smoke-checks-only-shipped-native-modules/alternatives-considered:
+  en: 4d78129e077367d9
+  zh: fb0c248210075567
+/agent-note-desktop-payload-smoke-checks-only-shipped-native-modules/consequences:
+  en: 1f127d6b3d82f1cf
+  zh: 3cdc55cd4c2ad98a
