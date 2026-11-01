@@ -10,7 +10,7 @@ Status: implemented
 
 ## Decision
 
-产物 smoke 校验运行时树真正携带的原生与资源产物：koffi 的打包绑定、sharp 的 libvips 二进制、`turndown` 及其 GFM 插件，以及启动出的 node-pty 终端。其结果行报告这四项检查。该 fixture 不导入 `fs-ext`。
+产物 smoke 校验运行时树真正携带的原生与资源产物：随包交付的 pnpm、koffi 的打包绑定、sharp 的 libvips 二进制、`turndown` 及其 GFM 插件、启动出的 node-pty 终端，以及搜索工具解析出的 ripgrep 可执行文件。其结果行报告这些检查。该 fixture 不导入 `fs-ext`。
 
 `desktopRuntimeFileExclusion` 不含 `fs-ext` 规则，`runtime-file-policy.spec.ts` 继续要求包专用规则只在 `node_modules` 容器内匹配，并改用容器外的作用域包名来断言这一点。
 
@@ -26,6 +26,6 @@ Status: implemented
 
 ## Consequences
 
-桌面打包在 Windows 与 macOS 上都能走到产物 smoke 与 Host smoke。对已交付产物的覆盖不变：被删除的检查断言的是包集合中不存在的绑定，其余四项检查仍覆盖打包的 FFI 绑定、打包的图像库、打包的 HTML 资源和打包的 ConPTY 终端。
+桌面打包在 Windows 与 macOS 上都能走到产物 smoke 与 Host smoke。对已交付产物的覆盖不变：被删除的检查断言的是包集合中不存在的绑定，其余检查仍覆盖随包交付的包管理器、打包的 FFI 绑定、打包的图像库、打包的 HTML 资源、打包的 ConPTY 终端和搜索工具的原生可执行文件。
 
 复制规则的每一条剩余规则都指向运行时树可能包含的包。产物 smoke 的检查只在发布打包时运行，因此被移除的依赖会让该 fixture 一直陈旧，直到下一次打包运行触达它。

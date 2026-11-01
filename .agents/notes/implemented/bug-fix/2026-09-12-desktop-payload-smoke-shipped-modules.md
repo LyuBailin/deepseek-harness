@@ -10,7 +10,7 @@ English | [中文](2026-09-12-desktop-payload-smoke-shipped-modules.zh.md)
 
 ## Decision
 
-The payload smoke exercises the native and asset payloads the runtime tree carries: koffi's packaged binding, sharp's libvips binary, `turndown` with its GFM plugin, and a spawned node-pty terminal. Its result line reports those four checks. The fixture imports no `fs-ext`.
+The payload smoke exercises the native and asset payloads the runtime tree carries: the bundled pnpm, koffi's packaged binding, sharp's libvips binary, `turndown` with its GFM plugin, a spawned node-pty terminal, and the search tool's resolved ripgrep executable. Its result line reports those checks. The fixture imports no `fs-ext`.
 
 `desktopRuntimeFileExclusion` holds no `fs-ext` rule, and `runtime-file-policy.spec.ts` keeps the requirement that a package-specific rule matches only inside a `node_modules` container, asserted through a scoped package name outside one.
 
@@ -26,6 +26,6 @@ The profile `allowBuilds` entry for `fs-ext` in `apps/desktop/src/project-manage
 
 ## Consequences
 
-Desktop packaging reaches the payload smoke and the Host smoke on Windows and macOS. Coverage of shipped payloads is unchanged: the removed check asserted a binding absent from the package set, and the four remaining checks still cover a packaged FFI binding, a packaged image library, packaged HTML assets, and a packaged ConPTY terminal.
+Desktop packaging reaches the payload smoke and the Host smoke on Windows and macOS. Coverage of shipped payloads is unchanged: the removed check asserted a binding absent from the package set, and the remaining checks still cover the bundled package manager, a packaged FFI binding, a packaged image library, packaged HTML assets, a packaged ConPTY terminal, and the search tool's native executable.
 
 Every remaining copy-policy rule names a package the runtime tree can contain. The payload smoke's checks run only in release packaging, so a removed dependency leaves this fixture stale until the next packaging run reaches it.
